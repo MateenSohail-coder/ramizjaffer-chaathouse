@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useContext } from "react";
+import React, { useContext, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   X,
@@ -16,11 +16,16 @@ export default function Cart() {
   const { cart, isCartOpen, toggleCart, removeFromCart, clearCart } =
     useContext(AppContext);
 
-  const clickSound =
-    typeof window !== "undefined" ? new Audio("/Order.mp3") : null;
+  // 🔊 Persistent Audio (Mobile Safe)
+  const clickSoundRef = useRef(null);
+  const purchaseSoundRef = useRef(null);
 
-  const purchaseSound =
-    typeof window !== "undefined" ? new Audio("/purchase.mp3") : null;
+  if (typeof window !== "undefined") {
+    if (!clickSoundRef.current) clickSoundRef.current = new Audio("/Order.mp3");
+
+    if (!purchaseSoundRef.current)
+      purchaseSoundRef.current = new Audio("/Checkout.mpeg");
+  }
 
   const totalPrice = cart.reduce((total, item) => {
     const price = parseInt(item.price.replace(/[^\d]/g, ""));
@@ -28,7 +33,7 @@ export default function Cart() {
   }, 0);
 
   const handleOrder = () => {
-    purchaseSound?.play();
+    purchaseSoundRef.current?.play();
 
     const message = cart
       .map((item) => `*${item.title}*\n${item.label} → ${item.price}`)
@@ -53,14 +58,13 @@ Please confirm my order 🙌`;
     toggleCart();
   };
 
-
   const handleRemove = (index) => {
-    clickSound?.play();
+    clickSoundRef.current?.play();
     removeFromCart(index);
   };
 
   const handleClose = () => {
-    clickSound?.play();
+    clickSoundRef.current?.play();
     toggleCart();
   };
 
@@ -73,9 +77,9 @@ Please confirm my order 🙌`;
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
+            transition={{ duration: 0.2, ease: "easeOut" }}
             onClick={handleClose}
-            className="fixed inset-0 bg-black/50 md:bg-black/60 md:backdrop-blur-sm z-[100]"
+            className=" fixed inset-0 z-[100] bg-black/40 md:bg-black/30 backdrop-blur-xs backdrop-saturate-100"
           />
 
           {/* Cart Panel */}
@@ -84,11 +88,9 @@ Please confirm my order 🙌`;
             animate={{ y: 0 }}
             exit={{ y: "100%" }}
             transition={{
-              type: "spring",
-              stiffness: 300,
-              damping: 15,
-              mass: 1,
-              restDelta: 0.001,
+              type: "tween",
+              duration: 0.32,
+              ease: "easeOut",
             }}
             className="
               fixed bottom-0 left-0 right-0 z-[101] cartbg flex flex-col
@@ -174,7 +176,6 @@ Please confirm my order 🙌`;
                 </div>
 
                 <motion.button
-                  whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.97 }}
                   onClick={handleOrder}
                   className="w-full bg-slate-900 text-white py-4 rounded-[2rem]
