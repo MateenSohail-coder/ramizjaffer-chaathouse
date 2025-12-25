@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { Bean, Leaf, Salad, Carrot, Apple, Soup } from "lucide-react";
 import Link from "next/link";
 import { ArrowRightIcon } from "lucide-react";
+import { ArrowBigDown } from "lucide-react";
 
 export default function Hero() {
   return (
@@ -135,7 +136,7 @@ export default function Hero() {
                     ease: "easeInOut",
                   }}
                 >
-                  <ArrowRightIcon size={20} strokeWidth={3} />
+                  <ArrowBigDown size={20} strokeWidth={3} />
                 </motion.div>
               </motion.button>
             </Link>
