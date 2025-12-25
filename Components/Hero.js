@@ -116,7 +116,7 @@ export default function Hero() {
 
           {/* Parent container controls the alignment */}
           <div className="mt-8 flex flex-col items-center md:items-start justify-center md:justify-start">
-            <Link href="#menu" scroll={true} className="w-full sm:w-auto">
+            <Link href="/#menu" scroll={true} className="w-full sm:w-auto">
               <motion.button
                 whileHover={{ scale: 1.05, gap: "12px" }}
                 whileTap={{ scale: 0.98 }}
