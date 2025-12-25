@@ -16,9 +16,11 @@ export default function Cart() {
   const { cart, isCartOpen, toggleCart, removeFromCart, clearCart } =
     useContext(AppContext);
 
-  // 🔊 Audio (single reusable sound)
   const clickSound =
     typeof window !== "undefined" ? new Audio("/Order.mp3") : null;
+
+  const purchaseSound =
+    typeof window !== "undefined" ? new Audio("/purchase.mp3") : null;
 
   const totalPrice = cart.reduce((total, item) => {
     const price = parseInt(item.price.replace(/[^\d]/g, ""));
@@ -26,7 +28,7 @@ export default function Cart() {
   }, 0);
 
   const handleOrder = () => {
-    clickSound?.play();
+    purchaseSound?.play();
 
     const message = cart
       .map((item) => `*${item.title}*\n${item.label} → ${item.price}`)
@@ -50,6 +52,7 @@ Please confirm my order 🙌`;
     clearCart();
     toggleCart();
   };
+
 
   const handleRemove = (index) => {
     clickSound?.play();
