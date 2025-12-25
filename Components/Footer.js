@@ -74,7 +74,9 @@ export default function Footer() {
               <div className="text-2xl font-bold sigmar flex items-center gap-2">
                 <PhoneCall /> 0322 4610522
               </div>
-              <div className="text-xl">1:00 PM - 10:30 PM Daily</div>
+              <div className="text-xl text-amber-500 sigmar ">
+                1:00 PM - 10:30 PM Daily
+              </div>
             </div>
 
             <p className="text-base text-gray-700 leading-relaxed">

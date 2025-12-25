@@ -58,7 +58,7 @@ export default function Navbar() {
                  text-white p-2 pl-5 pr-2 rounded-[2.5rem] 
                  shadow-[0_20px_50px_rgba(0,0,0,0.4)] 
                  border border-white/10 overflow-hidden 
-                 md:left-auto md:right-10 md:translate-x-0 md:bottom-10 md:p-4 md:px-6"
+                 md:left-auto md:right-0 md:translate-x-0 md:bottom-10 md:p-4 md:px-6"
           >
             <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent" />
 

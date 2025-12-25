@@ -14,6 +14,15 @@ body {
     #f59b6e 100%
   );
 }
+.cartbg{
+  background: radial-gradient(
+   circle at top,
+    #f8f1f3 0%,
+    #fac1ca 45%,
+    #f3ceba 75%,
+    #f59b6e 100%
+  );
+}
 /* Custom Scrollbar for Chrome, Edge, Safari */
 ::-webkit-scrollbar {
   width: 12px;           /* width of the scrollbar */

@@ -186,7 +186,7 @@ export default function Items() {
         >
           Lahore's spiciest street food! Fresh daily, made with ❤️.
           <span className="block text-amber-600 font-black text-xs md:text-sm mt-4">
-            Tap size → Order via WhatsApp! 📱
+            Tap size → Order via WhatsApp!
           </span>
         </motion.p>
       </motion.div>

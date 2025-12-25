@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useContext } from "react";
 import Image from "next/image";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import AppContext from "../Context/context";
 import { Plus } from "lucide-react";
 
@@ -22,7 +22,14 @@ export default function Card({
   const [selectedPriceIndex, setSelectedPriceIndex] = useState(0);
   const { addToCart } = useContext(AppContext);
 
+  // ✅ Audio instance
+  const orderAudio =
+    typeof window !== "undefined" ? new Audio("/Order.mp3") : null;
+
   const handleOrder = () => {
+    // ✅ Play sound
+    orderAudio?.play();
+
     const selectedPrice = prices[selectedPriceIndex];
     const item = {
       title,
@@ -42,7 +49,7 @@ export default function Card({
       className="group relative w-full bg-white rounded-2xl shadow-md overflow-hidden border border-gray-100 active:scale-[0.98] transition-transform duration-200"
       style={{ border: `4px solid ${color}70` }}
     >
-      {/* Badge - Simplified for Mobile */}
+      {/* Badge */}
       {type && (
         <div
           className="absolute top-3 left-1/2 sigmar -translate-x-1/2 z-30 px-4 py-1 rounded-full text-[10px] font-bold tracking-widest uppercase text-white shadow-lg"
@@ -52,7 +59,7 @@ export default function Card({
         </div>
       )}
 
-      {/* Image Container - Fixed Aspect Ratio for stability */}
+      {/* Image */}
       <div className="relative aspect-[4/3] overflow-hidden bg-gray-100">
         {discount && (
           <div
@@ -71,16 +78,9 @@ export default function Card({
           className="object-cover transition-transform duration-500 group-hover:scale-110"
           loading="lazy"
         />
-
-        {/* Quick Add Overlay - Only visible on Hover (Desktop) or via Button (Mobile) */}
-        <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 hidden md:flex items-center justify-center">
-          <button className="bg-white text-black px-6 py-2 rounded-full font-bold shadow-xl transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
-            Quick Add +
-          </button>
-        </div>
       </div>
 
-      {/* Content Section */}
+      {/* Content */}
       <div className="p-4 md:p-6 space-y-4">
         <div>
           <h3 className="text-2xl font-extralight sigmar text-gray-900 line-clamp-1">
@@ -91,7 +91,7 @@ export default function Card({
           </p>
         </div>
 
-        {/* Price Selector - Mobile Optimized Tabs */}
+        {/* Price Selector */}
         <div className="flex gap-2 p-1 bg-gray-50 rounded-xl">
           {prices.map((priceItem, index) => (
             <button
@@ -114,10 +114,10 @@ export default function Card({
           ))}
         </div>
 
-        {/* Pricing & CTA */}
+        {/* CTA */}
         <div className="flex items-center justify-between gap-2">
           <div className="flex flex-col sigmar">
-            <span className="text-2xl font-black text-gray-900 leading-none ">
+            <span className="text-2xl font-black text-gray-900 leading-none">
               {prices[selectedPriceIndex]?.value}
             </span>
             {originalPrices[selectedPriceIndex] && (

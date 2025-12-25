@@ -22,10 +22,19 @@ export default function Cart() {
 
   const handleOrder = () => {
     const message = cart
-      .map((item) => `*${item.title}*\n   ${item.label} → ${item.price}`)
+      .map((item) => `*${item.title}*\n${item.label} → ${item.price}`)
       .join("\n\n");
 
-    const fullMessage = `✨ *New Order Request* ✨\n\n${message}\n\n━━━━━━━━━━━━━━\n💰 *Total Amount: Rs. ${totalPrice}*\n━━━━━━━━━━━━━━\n\nPlease confirm my order! 🍔`;
+    const fullMessage = `✨ *New Order Request* ✨
+
+${message}
+
+━━━━━━━━━━━━━━
+💰 *Total: Rs. ${totalPrice}*
+━━━━━━━━━━━━━━
+
+Please confirm my order 🙌`;
+
     const whatsappUrl = `https://wa.me/923700959829?text=${encodeURIComponent(
       fullMessage
     )}`;
@@ -35,182 +44,124 @@ export default function Cart() {
     toggleCart();
   };
 
-  // Shared transition config for synchronized smoothness
-  const smoothTransition = {
-    type: "spring",
-    damping: 25,
-    stiffness: 200,
-    mass: 0.8,
-  };
-
   return (
     <AnimatePresence>
       {isCartOpen && (
         <>
-          {/* Elite Backdrop - Smooth Fade */}
+          {/* Backdrop (NO blur on mobile) */}
           <motion.div
-            initial={{ opacity: 1 }}
+            initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            exit={{ opacity: 1 }}
-            transition={{ duration: 0.4 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
             onClick={toggleCart}
-            className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[100]"
+            className="fixed inset-0 bg-black/50 md:bg-black/60 md:backdrop-blur-sm z-[100]"
           />
 
-          {/* Premium Panel - Liquid Entrance */}
+          {/* Cart Panel */}
           <motion.div
-            initial={{ y: "100%", opacity: 0.5 }}
-            animate={{ y: 0, opacity: 1 }}
-            exit={{ y: "100%", opacity: 0.5 }}
-            transition={smoothTransition}
-            className="fixed bottom-0 left-0 right-0 md:top-0 md:left-auto md:w-[450px] 
-                       bg-white z-[101] flex flex-col rounded-t-[2.5rem] md:rounded-l-[2rem] md:rounded-tr-none
-                       h-[85vh] md:h-screen shadow-[-20px_0_50px_rgba(0,0,0,0.15)] overflow-hidden"
+            initial={{ y: "100%" }}
+            animate={{ y: 0 }}
+            exit={{ y: "100%" }}
+            transition={{ duration: 0.35, ease: "easeOut" }}
+            className="
+              fixed bottom-0 left-0 right-0 z-[101] cartbg flex flex-col
+              h-[85vh] rounded-t-[2.5rem] overflow-hidden
+              md:top-0 md:right-0 md:left-auto md:h-screen md:w-[420px]
+              md:rounded-l-[2rem] md:rounded-tr-none
+              shadow-xl md:shadow-[-20px_0_50px_rgba(0,0,0,0.15)]
+            "
           >
-            {/* Glossy Header Area */}
-            <div className="relative p-6 pb-8 bg-gradient-to-br from-orange-50 to-white overflow-hidden">
-              <div className="absolute -top-10 -right-10 w-32 h-32 bg-orange-200/40 rounded-full blur-3xl" />
-
-              <div className="relative flex items-center justify-between">
+            {/* Header */}
+            <div className="p-6 bg-gradient-to-br from-orange-50 to-white">
+              <div className="flex items-center justify-between">
                 <div className="flex items-center gap-4">
-                  <motion.div
-                    initial={{ scale: 0.8, rotate: -10 }}
-                    animate={{ scale: 1, rotate: 0 }}
-                    transition={{ delay: 0.1, ...smoothTransition }}
-                    className="w-12 h-12 bg-orange-500 rounded-2xl flex items-center justify-center shadow-lg shadow-orange-200 text-white"
-                  >
-                    <ShoppingBag size={24} strokeWidth={2.5} />
-                  </motion.div>
+                  <div className="w-11 h-11 bg-orange-500 rounded-2xl flex items-center justify-center text-white shadow-lg">
+                    <ShoppingBag size={22} />
+                  </div>
                   <div>
-                    <h2 className="text-2xl font-extralight text-slate-800 sigmar tracking-tight">
-                      Your Orders
+                    <h2 className="text-xl  text-slate-800 sigmar">
+                      Your Cart
                     </h2>
-                    <span className="flex items-center gap-1 text-[10px] font-bold text-orange-600 uppercase tracking-widest">
-                      <Zap size={10} fill="currentColor" /> Express Delivery
+                    <span className="flex items-center gap-1 text-[10px] font-bold text-orange-600 uppercase">
+                      <Zap size={10} fill="currentColor" /> Express
                     </span>
                   </div>
                 </div>
+
                 <button
                   onClick={toggleCart}
-                  className="p-3 bg-slate-100 hover:bg-slate-200 rounded-full transition-all text-slate-500 active:scale-90"
+                  className="p-2 bg-slate-100 hover:bg-slate-200 rounded-full"
                 >
-                  <X size={20} />
+                  <X size={18} />
                 </button>
               </div>
             </div>
 
-            {/* Main Content List - Item Entrance Staggered */}
-            <div className="flex-1 overflow-y-auto px-6 py-2 space-y-4 custom-scrollbar">
+            {/* Items */}
+            <div className="flex-1 overflow-y-auto px-6 py-4 space-y-3">
               {cart.length === 0 ? (
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  className="flex flex-col items-center justify-center h-full py-20 text-center"
-                >
-                  <div className="w-24 h-24 bg-slate-50 rounded-full flex items-center justify-center mb-6">
-                    <ShoppingBag className="w-12 h-12 text-slate-200" />
-                  </div>
-                  <h3 className="text-lg font-bold text-slate-800">
-                    Your bag is empty
-                  </h3>
-                  <p className="text-slate-400 text-sm max-w-[200px] mt-1">
-                    Looks like you haven't added anything yet!
-                  </p>
-                </motion.div>
-              ) : (
-                <div className="space-y-3">
-                  {cart.map((item, index) => (
-                    <motion.div
-                      key={index}
-                      initial={{ opacity: 0, x: 30 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      exit={{ opacity: 0, x: 50 }}
-                      transition={{ delay: index * 0.05, duration: 0.3 }}
-                      className="group flex items-center gap-4 p-4 bg-white border border-slate-100 rounded-3xl hover:border-orange-200 hover:shadow-md transition-all"
-                    >
-                      <div className="w-16 h-16 bg-slate-50 rounded-2xl overflow-hidden flex-shrink-0 flex items-center justify-center text-orange-300 font-bold sigmar text-xl">
-                        {item.title.charAt(0)}
-                      </div>
-
-                      <div className="flex-1 min-w-0">
-                        <h3 className="font-extralight text-slate-800 truncate sigmar leading-tight">
-                          {item.title}
-                        </h3>
-                        <p className="text-xs font-semibold text-slate-400">
-                          {item.label}
-                        </p>
-                        <p className="text-base font-black text-orange-500 mt-0.5 sigmar">
-                          {item.price}
-                        </p>
-                      </div>
-
-                      <button
-                        onClick={() => removeFromCart(index)}
-                        className="p-2 text-slate-300 hover:text-red-500 hover:bg-red-50 rounded-xl transition-colors"
-                      >
-                        <Trash2 size={18} />
-                      </button>
-                    </motion.div>
-                  ))}
+                <div className="flex flex-col items-center justify-center h-full text-center">
+                  <ShoppingBag className="w-14 h-14 text-slate-200 mb-3" />
+                  <p className="text-slate-500">Your cart is empty</p>
                 </div>
+              ) : (
+                cart.map((item, index) => (
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.15 }}
+                    className="flex items-center gap-4 p-4 bg-white border border-slate-100 rounded-3xl"
+                  >
+                    <div className="w-14 h-14 bg-slate-50 sigmar rounded-2xl flex items-center justify-center text-orange-400 font-bold">
+                      {item.title.charAt(0)}
+                    </div>
+
+                    <div className="flex-1 min-w-0">
+                      <h3 className="font-extralight text-slate-800 truncate sigmar">
+                        {item.title}
+                      </h3>
+                      <p className="text-xs text-slate-400">{item.label}</p>
+                      <p className="text-sm font-bold text-orange-500">
+                        {item.price}
+                      </p>
+                    </div>
+
+                    <button
+                      onClick={() => removeFromCart(index)}
+                      className="p-2 text-slate-300 hover:text-red-500"
+                    >
+                      <Trash2 size={18} />
+                    </button>
+                  </motion.div>
+                ))
               )}
             </div>
 
-            {/* Checkout Section - Slides up slightly after panel */}
+            {/* Footer */}
             {cart.length > 0 && (
-              <motion.div
-                initial={{ y: 20, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.2, ...smoothTransition }}
-                className="p-8 bg-white border-t border-slate-50"
-              >
-                <div className="space-y-3 mb-8">
-                  <div className="flex justify-between items-center text-slate-400 text-sm font-medium">
-                    <span>Subtotal</span>
-                    <span>Rs. {totalPrice}</span>
-                  </div>
-                  <div className="flex justify-between items-center text-slate-400 text-sm font-medium">
-                    <span>Delivery Fee</span>
-                    <span className="text-green-500 font-bold">FREE</span>
-                  </div>
-                  <div className="flex justify-between items-center pt-3 border-t border-slate-100">
-                    <span className="text-lg font-bold text-slate-800">
-                      Total
-                    </span>
-                    <span className="text-3xl font-black text-slate-900 tracking-tight sigmar">
-                      <span className="text-sm font-bold text-orange-500 mr-1">
-                        Rs.
-                      </span>
-                      {totalPrice}
-                    </span>
-                  </div>
+              <div className="p-6 bg-white border-t-4 border-slate-200">
+                <div className="flex justify-between items-center mb-4">
+                  <span className="font-semibold text-slate-600">Total</span>
+                  <span className="text-2xl font-black sigmar text-slate-900">
+                    Rs. {totalPrice}
+                  </span>
                 </div>
 
                 <motion.button
-                  whileHover={{ scale: 1.02, y: -2 }}
-                  whileTap={{ scale: 0.98 }}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.97 }}
                   onClick={handleOrder}
-                  className="w-full relative group bg-slate-900 text-white py-5 rounded-[2rem] font-bold text-lg 
-                             shadow-2xl shadow-slate-200 overflow-hidden transition-all hover:bg-slate-800"
+                  className="w-full bg-slate-900 text-white py-4 rounded-[2rem]
+                             sigmar text-lg shadow-xl flex items-center
+                             justify-center gap-3"
                 >
-                  <div className="absolute inset-0 w-1/2 h-full bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12 translate-x-[-150%] group-hover:translate-x-[250%] transition-transform duration-1000" />
-
-                  <div className="flex items-center justify-center gap-3">
-                    <MessageCircle
-                      size={22}
-                      fill="white"
-                      className="text-slate-900"
-                    />
-                    <span className="sigmar font-extralight tracking-wide">
-                      Checkout via WhatsApp
-                    </span>
-                    <ChevronRight
-                      size={18}
-                      className="group-hover:translate-x-1 transition-transform"
-                    />
-                  </div>
+                  <MessageCircle size={20} />
+                  Checkout via WhatsApp
+                  <ChevronRight size={18} />
                 </motion.button>
-              </motion.div>
+              </div>
             )}
           </motion.div>
         </>
