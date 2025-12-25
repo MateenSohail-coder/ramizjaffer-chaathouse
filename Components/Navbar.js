@@ -47,6 +47,10 @@ export default function Navbar() {
       <AnimatePresence>
         {cart.length > 0 && (
           <motion.button
+            whileTap={{
+              scale: 0.92,
+              transition: { type: "spring", stiffness: 400, damping: 20 },
+            }}
             onClick={toggleCart}
             /* On mobile: We start off-screen (y: 100) and move to center.
          On desktop: We override the x-transform to 0 so it docks right.

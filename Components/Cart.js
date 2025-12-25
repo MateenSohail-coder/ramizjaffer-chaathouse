@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useContext } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -15,12 +16,18 @@ export default function Cart() {
   const { cart, isCartOpen, toggleCart, removeFromCart, clearCart } =
     useContext(AppContext);
 
+  // 🔊 Audio (single reusable sound)
+  const clickSound =
+    typeof window !== "undefined" ? new Audio("/Order.mp3") : null;
+
   const totalPrice = cart.reduce((total, item) => {
     const price = parseInt(item.price.replace(/[^\d]/g, ""));
     return total + price;
   }, 0);
 
   const handleOrder = () => {
+    clickSound?.play();
+
     const message = cart
       .map((item) => `*${item.title}*\n${item.label} → ${item.price}`)
       .join("\n\n");
@@ -44,17 +51,27 @@ Please confirm my order 🙌`;
     toggleCart();
   };
 
+  const handleRemove = (index) => {
+    clickSound?.play();
+    removeFromCart(index);
+  };
+
+  const handleClose = () => {
+    clickSound?.play();
+    toggleCart();
+  };
+
   return (
     <AnimatePresence>
       {isCartOpen && (
         <>
-          {/* Backdrop (NO blur on mobile) */}
+          {/* Backdrop */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            onClick={toggleCart}
+            onClick={handleClose}
             className="fixed inset-0 bg-black/50 md:bg-black/60 md:backdrop-blur-sm z-[100]"
           />
 
@@ -65,9 +82,9 @@ Please confirm my order 🙌`;
             exit={{ y: "100%" }}
             transition={{
               type: "spring",
-              stiffness: 100, // Reduced from 600 to 100 for "Medium Speed"
-              damping: 7, // Increased to 12 to stop the shaking after one bounce
-              mass: 0.2, // Makes the element feel lighter and more responsive
+              stiffness: 300,
+              damping: 15,
+              mass: 1,
               restDelta: 0.001,
             }}
             className="
@@ -86,9 +103,7 @@ Please confirm my order 🙌`;
                     <ShoppingBag size={22} />
                   </div>
                   <div>
-                    <h2 className="text-xl  text-slate-800 sigmar">
-                      Your Cart
-                    </h2>
+                    <h2 className="text-xl text-slate-800 sigmar">Your Cart</h2>
                     <span className="flex items-center gap-1 text-[10px] font-bold text-orange-600 uppercase">
                       <Zap size={10} fill="currentColor" /> Express
                     </span>
@@ -96,7 +111,7 @@ Please confirm my order 🙌`;
                 </div>
 
                 <button
-                  onClick={toggleCart}
+                  onClick={handleClose}
                   className="p-2 bg-slate-100 hover:bg-slate-200 rounded-full"
                 >
                   <X size={18} />
@@ -135,7 +150,7 @@ Please confirm my order 🙌`;
                     </div>
 
                     <button
-                      onClick={() => removeFromCart(index)}
+                      onClick={() => handleRemove(index)}
                       className="p-2 text-slate-300 hover:text-red-500"
                     >
                       <Trash2 size={18} />
