@@ -89,7 +89,7 @@ Please confirm my order 🙌`;
             exit={{ y: "100%" }}
             transition={{
               type: "tween",
-              duration: 0.32,
+              duration: 0.1,
               ease: "easeOut",
             }}
             className="
