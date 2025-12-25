@@ -49,9 +49,9 @@ export default function Cart() {
         <>
           {/* Elite Backdrop - Smooth Fade */}
           <motion.div
-            initial={{ opacity: 0 }}
+            initial={{ opacity: 1 }}
             animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
+            exit={{ opacity: 1 }}
             transition={{ duration: 0.4 }}
             onClick={toggleCart}
             className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[100]"
