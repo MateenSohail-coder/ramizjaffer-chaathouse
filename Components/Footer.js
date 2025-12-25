@@ -2,6 +2,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Bean, Leaf, Salad, Carrot, Apple, Soup } from "lucide-react";
+import { PhoneCall } from "lucide-react";
 
 export default function Footer() {
   return (
@@ -70,8 +71,10 @@ export default function Footer() {
           {/* Contact & Hours */}
           <div className="space-y-4 text-lg text-amber-800 max-w-2xl mx-auto">
             <div className="flex flex-col sm:flex-row items-center justify-center gap-6 p-6 bg-amber-50/50 rounded-3xl backdrop-blur-sm border border-amber-100">
-              <div className="text-2xl font-bold sigmar">📞 0300-1234567</div>
-              <div className="text-xl">11AM - 11PM Daily</div>
+              <div className="text-2xl font-bold sigmar flex items-center gap-2">
+                <PhoneCall /> 0322 4610522
+              </div>
+              <div className="text-xl">1:00 PM - 10:30 PM Daily</div>
             </div>
 
             <p className="text-base text-gray-700 leading-relaxed">
@@ -83,20 +86,13 @@ export default function Footer() {
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <motion.a
-              href="tel:+923001234567"
+              href="tel:+923700959829"
               className="rounded-full bg-amber-900 px-10 py-4 text-white font-semibold text-lg hover:bg-amber-800 transition-all shadow-xl"
               whileHover={{ scale: 1.05, y: -2 }}
               whileTap={{ scale: 0.95 }}
             >
-              Order Now
+              Call Now
             </motion.a>
-            <motion.button
-              className="rounded-full border-2 border-amber-900 px-10 py-4 text-amber-900 font-semibold text-lg hover:bg-amber-50 transition-all shadow-lg"
-              whileHover={{ scale: 1.05, y: -2 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              Full Menu
-            </motion.button>
           </div>
 
           {/* Copyright */}

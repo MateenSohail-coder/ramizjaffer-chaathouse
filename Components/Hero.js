@@ -3,6 +3,8 @@ import Image from "next/image";
 import React from "react";
 import { motion } from "framer-motion";
 import { Bean, Leaf, Salad, Carrot, Apple, Soup } from "lucide-react";
+import Link from "next/link";
+import { ArrowRightIcon } from "lucide-react";
 
 export default function Hero() {
   return (
@@ -112,12 +114,30 @@ export default function Hero() {
           </p>
 
           <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-            <button className="rounded-full bg-amber-900 px-8 py-3 text-white font-semibold hover:bg-amber-800 transition">
-              Order Now
-            </button>
-            <button className="rounded-full border-2 border-amber-900 px-8 py-3 text-amber-900 font-semibold hover:bg-amber-100 transition">
-              View Menu
-            </button>
+            <Link href="#menu" scroll={true}>
+              <motion.button
+                whileHover={{ scale: 1.05, gap: "12px" }}
+                whileTap={{ scale: 0.98 }}
+                className="group relative flex items-center gap-2 bg-amber-950 text-white px-10 py-4 rounded-full font-bold text-lg shadow-xl shadow-amber-800/60 sigmar transition-all overflow-hidden"
+              >
+                {/* Subtle Shine Effect */}
+                <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12 -translate-x-full group-hover:animate-[shimmer_1.5s_infinite]" />
+
+                <span className="relative z-10">Order Now</span>
+
+                <motion.div
+                  className="relative z-10 bg-orange-500 rounded-full p-1 group-hover:bg-orange-400 transition-colors"
+                  animate={{ x: [0, 5, 0] }}
+                  transition={{
+                    repeat: Infinity,
+                    duration: 1.5,
+                    ease: "easeInOut",
+                  }}
+                >
+                  <ArrowRightIcon size={20} strokeWidth={3} />
+                </motion.div>
+              </motion.button>
+            </Link>
           </div>
         </motion.div>
 

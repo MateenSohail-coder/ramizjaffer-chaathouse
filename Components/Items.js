@@ -72,7 +72,7 @@ const cardData = [
 
 export default function Items() {
   return (
-    <section className="w-full py-24 px-2 md:px-8 lg:px-16 relative">
+    <section id="menu" className="w-full py-24 px-2 md:px-8 lg:px-16 relative">
       {/* FLOATING FOOD ICONS */}
       <motion.div
         className="absolute bottom-70 left-10 text-amber-700 opacity-25"
