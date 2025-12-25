@@ -63,7 +63,13 @@ Please confirm my order 🙌`;
             initial={{ y: "100%" }}
             animate={{ y: 0 }}
             exit={{ y: "100%" }}
-            transition={{ duration: 0.35, ease: "easeOut" }}
+            transition={{
+              type: "spring",
+              stiffness: 100, // Reduced from 600 to 100 for "Medium Speed"
+              damping: 7, // Increased to 12 to stop the shaking after one bounce
+              mass: 0.2, // Makes the element feel lighter and more responsive
+              restDelta: 0.001,
+            }}
             className="
               fixed bottom-0 left-0 right-0 z-[101] cartbg flex flex-col
               h-[85vh] rounded-t-[2.5rem] overflow-hidden

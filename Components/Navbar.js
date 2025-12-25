@@ -48,18 +48,32 @@ export default function Navbar() {
         {cart.length > 0 && (
           <motion.button
             onClick={toggleCart}
+            /* On mobile: We start off-screen (y: 100) and move to center.
+         On desktop: We override the x-transform to 0 so it docks right.
+      */
             initial={{ y: 100, x: "-50%", opacity: 0 }}
-            animate={{ y: 0, x: "-50%", opacity: 1 }}
+            animate={{
+              y: 0,
+              x:
+                typeof window !== "undefined" && window.innerWidth < 768
+                  ? "-50%"
+                  : "0%",
+              opacity: 1,
+            }}
             exit={{ y: 100, x: "-50%", opacity: 0 }}
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.95 }}
-            className="fixed bottom-6 left-1/2 -translate-x-1/2 z-[60] 
+            /* md:left-auto + md:right-10: Moves it to the right on desktop.
+         left-1/2: Keeps it centered on mobile.
+      */
+            className="fixed bottom-6 left-1/2 z-[60] 
                  flex items-center gap-3 bg-slate-900/90 backdrop-blur-xl 
                  text-white p-2 pl-5 pr-2 rounded-[2.5rem] 
                  shadow-[0_20px_50px_rgba(0,0,0,0.4)] 
                  border border-white/10 overflow-hidden 
-                 md:left-auto md:right-0 md:translate-x-0 md:bottom-10 md:p-4 md:px-6"
+                 md:left-auto md:right-10 md:bottom-10 md:p-4 md:px-6"
           >
+            {/* Decorative Top Shine */}
             <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent" />
 
             <div className="flex items-center gap-3">
@@ -98,11 +112,11 @@ export default function Navbar() {
               </div>
             </div>
 
-            {/* This is the part that caused the error - ensured it's imported now! */}
             <div className="bg-orange-500 p-3 rounded-full ml-2 shadow-inner">
               <ChevronRight size={20} strokeWidth={3} className="text-white" />
             </div>
 
+            {/* Moving Shine Effect */}
             <motion.div
               animate={{ x: ["-100%", "200%"] }}
               transition={{
