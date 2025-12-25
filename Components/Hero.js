@@ -113,12 +113,13 @@ export default function Hero() {
             ingredients. A perfect balance of taste, freshness, and tradition.
           </p>
 
-          <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-            <Link href="#menu" scroll={true}>
+          {/* Parent container controls the alignment */}
+          <div className="mt-8 flex flex-col items-center md:items-start justify-center md:justify-start">
+            <Link href="#menu" scroll={true} className="w-full sm:w-auto">
               <motion.button
                 whileHover={{ scale: 1.05, gap: "12px" }}
                 whileTap={{ scale: 0.98 }}
-                className="group relative flex items-center gap-2 bg-amber-950 text-white px-10 py-4 rounded-full font-bold text-lg shadow-xl shadow-amber-800/60 sigmar transition-all overflow-hidden"
+                className="group relative flex items-center justify-center gap-2 bg-amber-950 text-white px-10 py-4 rounded-full font-bold text-lg shadow-xl shadow-amber-800/60 sigmar transition-all overflow-hidden w-full sm:w-auto"
               >
                 {/* Subtle Shine Effect */}
                 <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12 -translate-x-full group-hover:animate-[shimmer_1.5s_infinite]" />

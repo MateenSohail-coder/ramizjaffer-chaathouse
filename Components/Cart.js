@@ -26,7 +26,7 @@ export default function Cart() {
       .join("\n\n");
 
     const fullMessage = `✨ *New Order Request* ✨\n\n${message}\n\n━━━━━━━━━━━━━━\n💰 *Total Amount: Rs. ${totalPrice}*\n━━━━━━━━━━━━━━\n\nPlease confirm my order! 🍔`;
-    const whatsappUrl = `https://wa.me/03700959829?text=${encodeURIComponent(
+    const whatsappUrl = `https://wa.me/923700959829?text=${encodeURIComponent(
       fullMessage
     )}`;
 
@@ -35,41 +35,54 @@ export default function Cart() {
     toggleCart();
   };
 
+  // Shared transition config for synchronized smoothness
+  const smoothTransition = {
+    type: "spring",
+    damping: 25,
+    stiffness: 200,
+    mass: 0.8,
+  };
+
   return (
     <AnimatePresence>
       {isCartOpen && (
         <>
-          {/* Elite Backdrop */}
+          {/* Elite Backdrop - Smooth Fade */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
+            transition={{ duration: 0.4 }}
             onClick={toggleCart}
             className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[100]"
           />
 
-          {/* Premium Panel */}
+          {/* Premium Panel - Liquid Entrance */}
           <motion.div
-            initial={{ y: "100%", x: "0%" }}
-            animate={{ y: 0, x: 0 }}
-            exit={{ y: "100%", x: "0%" }}
-            transition={{ type: "spring", damping: 30, stiffness: 300 }}
+            initial={{ y: "100%", opacity: 0.5 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: "100%", opacity: 0.5 }}
+            transition={smoothTransition}
             className="fixed bottom-0 left-0 right-0 md:top-0 md:left-auto md:w-[450px] 
                        bg-white z-[101] flex flex-col rounded-t-[2.5rem] md:rounded-l-[2rem] md:rounded-tr-none
                        h-[85vh] md:h-screen shadow-[-20px_0_50px_rgba(0,0,0,0.15)] overflow-hidden"
           >
             {/* Glossy Header Area */}
             <div className="relative p-6 pb-8 bg-gradient-to-br from-orange-50 to-white overflow-hidden">
-              {/* Decorative Blur Circle */}
               <div className="absolute -top-10 -right-10 w-32 h-32 bg-orange-200/40 rounded-full blur-3xl" />
 
               <div className="relative flex items-center justify-between">
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 bg-orange-500 rounded-2xl flex items-center justify-center shadow-lg shadow-orange-200 text-white">
+                  <motion.div
+                    initial={{ scale: 0.8, rotate: -10 }}
+                    animate={{ scale: 1, rotate: 0 }}
+                    transition={{ delay: 0.1, ...smoothTransition }}
+                    className="w-12 h-12 bg-orange-500 rounded-2xl flex items-center justify-center shadow-lg shadow-orange-200 text-white"
+                  >
                     <ShoppingBag size={24} strokeWidth={2.5} />
-                  </div>
+                  </motion.div>
                   <div>
-                    <h2 className="text-2xl font-extralight text-slate-800 sigmar">
+                    <h2 className="text-2xl font-extralight text-slate-800 sigmar tracking-tight">
                       Your Orders
                     </h2>
                     <span className="flex items-center gap-1 text-[10px] font-bold text-orange-600 uppercase tracking-widest">
@@ -86,10 +99,14 @@ export default function Cart() {
               </div>
             </div>
 
-            {/* Main Content List */}
+            {/* Main Content List - Item Entrance Staggered */}
             <div className="flex-1 overflow-y-auto px-6 py-2 space-y-4 custom-scrollbar">
               {cart.length === 0 ? (
-                <div className="flex flex-col items-center justify-center h-full py-20 text-center">
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  className="flex flex-col items-center justify-center h-full py-20 text-center"
+                >
                   <div className="w-24 h-24 bg-slate-50 rounded-full flex items-center justify-center mb-6">
                     <ShoppingBag className="w-12 h-12 text-slate-200" />
                   </div>
@@ -99,26 +116,24 @@ export default function Cart() {
                   <p className="text-slate-400 text-sm max-w-[200px] mt-1">
                     Looks like you haven't added anything yet!
                   </p>
-                </div>
+                </motion.div>
               ) : (
                 <div className="space-y-3">
                   {cart.map((item, index) => (
                     <motion.div
                       key={index}
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: index * 0.05 }}
+                      initial={{ opacity: 0, x: 30 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: 50 }}
+                      transition={{ delay: index * 0.05, duration: 0.3 }}
                       className="group flex items-center gap-4 p-4 bg-white border border-slate-100 rounded-3xl hover:border-orange-200 hover:shadow-md transition-all"
                     >
-                      {/* Placeholder for item image if needed, or colored initials */}
-                      <div className="w-16 h-16 bg-slate-50 rounded-2xl overflow-hidden flex-shrink-0">
-                        <div className="w-full h-full flex items-center justify-center text-orange-300 font-bold">
-                          {item.title.charAt(0)}
-                        </div>
+                      <div className="w-16 h-16 bg-slate-50 rounded-2xl overflow-hidden flex-shrink-0 flex items-center justify-center text-orange-300 font-bold sigmar text-xl">
+                        {item.title.charAt(0)}
                       </div>
 
                       <div className="flex-1 min-w-0">
-                        <h3 className="font-extralight text-slate-800 truncate sigmar">
+                        <h3 className="font-extralight text-slate-800 truncate sigmar leading-tight">
                           {item.title}
                         </h3>
                         <p className="text-xs font-semibold text-slate-400">
@@ -141,9 +156,14 @@ export default function Cart() {
               )}
             </div>
 
-            {/* Floating Checkout Section */}
+            {/* Checkout Section - Slides up slightly after panel */}
             {cart.length > 0 && (
-              <div className="p-8 bg-white border-t border-slate-50">
+              <motion.div
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.2, ...smoothTransition }}
+                className="p-8 bg-white border-t border-slate-50"
+              >
                 <div className="space-y-3 mb-8">
                   <div className="flex justify-between items-center text-slate-400 text-sm font-medium">
                     <span>Subtotal</span>
@@ -181,7 +201,7 @@ export default function Cart() {
                       fill="white"
                       className="text-slate-900"
                     />
-                    <span className="sigmar font-extralight">
+                    <span className="sigmar font-extralight tracking-wide">
                       Checkout via WhatsApp
                     </span>
                     <ChevronRight
@@ -190,12 +210,7 @@ export default function Cart() {
                     />
                   </div>
                 </motion.button>
-
-                <div className="mt-4 flex items-center justify-center gap-2 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-                  <div className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse" />
-                  Orders are processed instantly
-                </div>
-              </div>
+              </motion.div>
             )}
           </motion.div>
         </>
